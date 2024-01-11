@@ -1,32 +1,38 @@
 [
     {
         "idUser": "user-0-viet",
-        "username": "viet",
+        "username": "viet1",
         "password": "1",
         "email": "viet@gmail.com"
     },
     {
         "idUser": "user-1-viet",
-        "username": "viet",
-        "password": "123",
+        "username": "viet2",
+        "password": 73,
         "email": "viethoa@"
     },
     {
         "idUser": "user-2-viet",
-        "username": "viet",
+        "username": "viet3",
         "password": "123",
         "email": "1232"
     },
     {
         "idUser": "user-1-viet",
-        "username": "viet",
+        "username": "viet4",
         "password": "123",
         "email": "vit@"
     },
     {
         "idUser": "user-1-viethoa",
         "username": "viethoa",
-        "password": "1234",
+        "password": 73,
         "email": "viet@gmail.com"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "username": "viet12",
+        "password": "viethoa",
+        "email": "viet@mgmail.com"
     }
 ]

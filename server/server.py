@@ -12,10 +12,10 @@ s.listen(10)
 
 
 userIndex = 0
-#userList = []
+
 def handle_client(client, addr):
     global userIndex
-    #global userList
+
     try:
         print('Connected by', addr)
         while True:
@@ -32,16 +32,19 @@ def handle_client(client, addr):
             
             msg = ""
             if dataR[0] == "SIGNIN":
+                msg = ""
                 with open("userAccount.json","r") as f:
                     userList = json.load(f)
 
                 for item in userList:
                     if dataR[1] == item["username"] and dataR[2] == item["password"]:
                         msg += f"SIGNIN {item['idUser']} {item['username']}"
+                        break
                 else:
                     msg += "Error"
 
             if dataR[0] == "SIGNUP":
+                msg = ""
                 userList = []
                 with open("userAccount.json","r") as f:
                     userList = json.load(f)
@@ -64,7 +67,30 @@ def handle_client(client, addr):
 
 
             if dataR[0] == "EDITUSERPASSWORD":
-                msg += "EDITUSERPASSWORD iduser Change,password,successed"
+                msg = ""
+                userList = []
+                with open("userAccount.json","r") as f:
+                    userList = json.load(f)
+                
+                idx = 0
+                check = False
+                for item in userList:
+                    idx += 1
+                    if dataR[1] == item["idUser"]:
+
+                        msg += f"EDITUSERPASSWORD {item['idUser']}"
+                        userList[idx-1]['password'] = dataR[2]
+                        with open("userAccount.json","w") as f:
+                            json.dump(userList, f, indent = 4)
+                        check = True
+                        break
+                if not check:
+                    msg += "Error"
+
+                #msg += "EDITUSERPASSWORD iduser Change,password,successed"
+
+
+
             if dataR[0] == "LOGPRODUCT":
                 msg += "LOGPRODUCT idProduct1,nameProduct1 idProduct2,nameProduct2"
             if dataR[0] == "LOGAUCTION":
