@@ -15,7 +15,6 @@ class SignUp:
 
 
     def receiData(self):
-        print("Done Sign Up")
         dataRec = self.server_socket.recv(1024).decode("utf8")
         print('Server: ', dataRec)
 
@@ -26,14 +25,21 @@ class SignUp:
                 "userName" : "{}".format(data[2]),
             }
 
-        with open("session.json","w") as file:
-            json.dump(self.dict, file, indent=4)
+            with open("session.json","w") as file:
+                json.dump(self.dict, file, indent=4)
+            
+            print("Signup success!")
+            return True
+        
+        else:
+            print("Tạo tài khoản thất bại")
+            return False
 
 
     def signUp(self):
         self.inputData()
         self.sendDataUser()
-        self.receiData()
+        return self.receiData()
 
 
 

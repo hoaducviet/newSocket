@@ -15,11 +15,9 @@ class SignIn:
 
 
     def receiData(self):
-        print("\nDone Sign In")
         dataRec = self.server_socket.recv(1024).decode("utf8")
         
         print('Server: ', dataRec)
-    
         data = dataRec.split(" ")
         if data[0] == "SIGNIN":
             self.dict = {
@@ -27,10 +25,16 @@ class SignIn:
                 "userName" : "{}".format(data[2]),
             }
 
-        with open("session.json","w") as file:
-            json.dump(self.dict, file, indent=4)
+            with open("session.json","w") as file:
+                json.dump(self.dict, file, indent=4)
+
+            print("Đăng nhập thành công")
+            return True
+        else:
+            print("Đăng nhập thất bại")
+            return False
 
     def signIn(self):
         self.inputData()
         self.sendDataUser()
-        self.receiData()
+        return self.receiData()

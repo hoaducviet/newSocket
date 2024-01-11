@@ -17,7 +17,7 @@ import viewRoom
 
 
 HOST = '127.0.0.1'  
-PORT = 8000     
+PORT = 8000
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = (HOST, PORT)
@@ -147,12 +147,13 @@ def inputScreen():
         print("\n1.Đăng Nhập\n2.Đăng ký\n3.Thoát")
         case = int(input("Lựa chọn: "))
         if case == 1:
-            #userSignIn.signIn()
-            mainScreen()
+
+            if userSignIn.signIn():
+                mainScreen()
 
         elif case == 2:
-            userSignUp.signUp()
-            mainScreen()
+            if userSignUp.signUp():
+                mainScreen()
         elif case == 3:
             break
 

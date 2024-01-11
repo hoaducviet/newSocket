@@ -1,4 +1,5 @@
 import socket
+import json
 import threading
 
 HOST = '127.0.0.1'  
@@ -10,8 +11,11 @@ s.bind((HOST, PORT))
 s.listen(10)
 
 
-
+userIndex = 0
+#userList = []
 def handle_client(client, addr):
+    global userIndex
+    #global userList
     try:
         print('Connected by', addr)
         while True:
@@ -28,9 +32,37 @@ def handle_client(client, addr):
             
             msg = ""
             if dataR[0] == "SIGNIN":
-                msg += f"SIGNIN {dataR[1]} id_{dataR[1]}"
+                with open("userAccount.json","r") as f:
+                    userList = json.load(f)
+
+                for item in userList:
+                    if dataR[1] == item["username"] and dataR[2] == item["password"]:
+                        msg += f"SIGNIN {item['idUser']} {item['username']}"
+                else:
+                    msg += "Error"
+
             if dataR[0] == "SIGNUP":
-                msg += "SIGNUP viet idsignup"
+                userList = []
+                with open("userAccount.json","r") as f:
+                    userList = json.load(f)
+                if dataR[1] in userList:
+                    msg += "Error"
+                else:
+                    userIndex += 1
+                
+                    idUser = f"user-{userIndex}-{dataR[1]}"
+                    userList.append({
+                        "idUser": idUser,
+                        "username": dataR[1],
+                        "password": dataR[2],
+                        "email": dataR[3],
+                    })
+                    with open("userAccount.json","w") as f:
+                        json.dump(userList, f, indent = 4)
+
+                    msg += f"SIGNUP {idUser} {dataR[1]}"
+
+
             if dataR[0] == "EDITUSERPASSWORD":
                 msg += "EDITUSERPASSWORD iduser Change,password,successed"
             if dataR[0] == "LOGPRODUCT":
