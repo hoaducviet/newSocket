@@ -26,7 +26,7 @@ class ViewRoom:
 
     def sendDataBidPriceProduct(self):
         price = float(input("Ra giá: "))
-        msg = f"BIDPRICE {self.idRoom} {self.data[4]} {price}"
+        msg = f"BIDPRICE {self.dict['idUser']} {self.idRoom} {self.data[4]} {price}"
         self.server_socket.sendall(bytes(msg, "utf8"))
         print(msg)
 

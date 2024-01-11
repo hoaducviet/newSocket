@@ -148,8 +148,8 @@ def inputScreen():
         case = int(input("Lựa chọn: "))
         if case == 1:
 
-            if userSignIn.signIn():
-                mainScreen()
+            #if userSignIn.signIn():
+            mainScreen()
 
         elif case == 2:
             if userSignUp.signUp():

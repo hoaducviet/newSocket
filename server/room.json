@@ -18,5 +18,25 @@
         "idUser": "user-1-viet12",
         "idRoom": "room-0-noname",
         "nameRoom": "noname"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-newRoom",
+        "nameRoom": "newRoom"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-vu",
+        "nameRoom": "vu"
+    },
+    {
+        "idUser": "user-0-viet",
+        "idRoom": "room-0-vietnam",
+        "nameRoom": "vietnam"
+    },
+    {
+        "idUser": "user-1-dsdasdf",
+        "idRoom": "room-0-viet",
+        "nameRoom": "viet"
     }
 ]

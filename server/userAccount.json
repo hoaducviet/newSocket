@@ -34,5 +34,11 @@
         "username": "viet12",
         "password": "viethoa",
         "email": "viet@mgmail.com"
+    },
+    {
+        "idUser": "user-1-dsdasdf",
+        "username": "dsdasdf",
+        "password": "\u00e1dfasdf",
+        "email": "\u00e1df"
     }
 ]

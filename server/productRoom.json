@@ -25,5 +25,32 @@
         "describeProduct": "tauthuydibien",
         "startPrice": "44.0",
         "timeAuction": "2.0"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-vu",
+        "idProduct": "room-0-vu-0",
+        "nameProduct": "maytinh",
+        "describeProduct": "maytinh1990",
+        "startPrice": "200.0",
+        "timeAuction": "30.0"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-vu",
+        "idProduct": "room-0-vu-0",
+        "nameProduct": "dienthoai",
+        "describeProduct": "dienthoaiiphone15",
+        "startPrice": "400.0",
+        "timeAuction": "12.0"
+    },
+    {
+        "idUser": "user-1-dsdasdf",
+        "idRoom": "room-0-viet",
+        "idProduct": "room-0-viet-0",
+        "nameProduct": "xedap",
+        "describeProduct": "xedap1979",
+        "startPrice": "12.0",
+        "timeAuction": "60.0"
     }
 ]
