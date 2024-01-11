@@ -1,0 +1,29 @@
+[
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-nam",
+        "idProduct": "room-0-nam-0",
+        "nameProduct": "xedap",
+        "describeProduct": "xedapdadiduoc10nam",
+        "startPrice": "12.0",
+        "timeAuction": "1.0"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-nam",
+        "idProduct": "room-0-nam-0",
+        "nameProduct": "xetang",
+        "describeProduct": "xetangnam1975",
+        "startPrice": "122.0",
+        "timeAuction": "1.0"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-nam",
+        "idProduct": "room-0-nam-0",
+        "nameProduct": "tauthuy",
+        "describeProduct": "tauthuydibien",
+        "startPrice": "44.0",
+        "timeAuction": "2.0"
+    }
+]

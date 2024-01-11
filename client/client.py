@@ -17,7 +17,7 @@ import viewRoom
 
 
 HOST = '127.0.0.1'  
-PORT = 8000
+PORT = 8001
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = (HOST, PORT)

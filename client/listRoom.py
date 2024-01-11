@@ -13,7 +13,7 @@ class ListRoom:
         if self.role:
             msg = f"LISTMYROOM {self.dict['idUser']}"
         else:
-            msg = f"LISTROOM"
+            msg = f"LISTROOM {self.dict['idUser']}"
         
         self.server_socket.sendall(bytes(msg, "utf8"))
         print(msg)
@@ -23,26 +23,29 @@ class ListRoom:
         print('Server: ', dataRec)
         data = dataRec.split(" ")
 
-        print("\nSTT\tDanh Sách Phòng\tIDRoom\tName")
-        for item in data[2:]:
-            product = item.split(",")
-            self.index += 1
-            print(f"\n{self.index}\t{product[0]}\t{product[1]}")
-            self.dictRoom.append({
-                "idRoom": product[0],
-                "nameRoom": product[1]
-            })
+        if len(data) == 2:
+            print("\nNo data room")
+        elif len(data) > 2:
+
+            print("\nDanh Sách Phòng\nSTT\tIDRoom\t\tNameRoom")
+            for item in data[2:]:
+                product = item.split(",")
+                self.index += 1
+                print(f"\n{self.index}\t{product[0]}\t{product[1]}")
+                self.dictRoom.append({
+                    "idRoom": product[0],
+                    "nameRoom": product[1]
+                })
+        else:
+            print("Error!")
+
 
     def option(self):
         while True:
-            case = int(input("Chọn phòng (Nhập O để quay lại): "))
-            if case == 0:
-                break
-            elif case > self.index:
+            case = int(input("Chọn phòng: "))
+            if case > self.index or case <= 0:
                 print("\nKhông có phòng đã chọn")
-                break
             else:
-                print(f"\nĐang xem phòng số {case}")
                 self.numberRoom = case
                 break
 

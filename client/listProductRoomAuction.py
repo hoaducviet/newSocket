@@ -21,7 +21,7 @@ class ListProductRoomAuction:
         print("\nDanh Sách Vật Phẩm\nIDProduct\tName\tDescribe\tStart Price\tTime Auction")
         for item in data[3:]:
             product = item.split(",")
-            print(f"\n{product[0]}\t{product[1]}\t{product[2]}\t{product[3]}\t{product[4]}")
+            print(f"\n{product[0]}\t\t{product[1]}\t{product[2]}\t{product[3]}\t\t{product[4]}")
     
 
     def viewProductRoom(self):

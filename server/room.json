@@ -1,0 +1,22 @@
+[
+    {
+        "idUser": "user-1-viet123",
+        "idRoom": "room-0-viet",
+        "nameRoom": "viet"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-nam",
+        "nameRoom": "nam"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-vn",
+        "nameRoom": "vn"
+    },
+    {
+        "idUser": "user-1-viet12",
+        "idRoom": "room-0-noname",
+        "nameRoom": "noname"
+    }
+]

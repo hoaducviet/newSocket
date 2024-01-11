@@ -35,17 +35,21 @@ class AddProductRoomAuction:
         msg = f"ADDPRODUCTROOM {self.dict['idUser']} {self.idRoom}"
         for item in self.list:
             msg += " {},{},{},{}".format(item['nameProduct'],item['describeProduct'],item['startPrice'],item['timeAuction'])
-        print(msg)
+        
         self.server_socket.sendall(bytes(msg, "utf8"))
 
     def receiDataAddProductRoom(self):
         dataRec = self.server_socket.recv(1024).decode("utf8")
-        print('Server: ', dataRec)
+        data = dataRec.split(",")
+        if data[0] == "ADDPRODUCTROOM":
+            print("Add product success!")
+
+        else:
+            print("Add product fail")
 
     def addProductRoomAuction(self):
         self.listProductRoom()
-        self.sendDataAddProductRoom()
-        self.receiDataAddProductRoom()
+        if len(self.list) > 0:
+            self.sendDataAddProductRoom()
+            self.receiDataAddProductRoom()
 
-    
-#user = AddProductRoomAuction(123,123).addProductRoomAuction()

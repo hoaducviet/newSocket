@@ -49,15 +49,17 @@ class RemoveProductRoomAuction:
 
     def receiDataRemoveProductRoom(self):
         dataRec = self.server_socket.recv(1024).decode("utf8")
-        print('Server: ', dataRec)
+        data = dataRec.split(" ")
+        if data[0] == "REMOVEPRODUCTROOM":
+            print("Delete success!")
+        else:
+            print("Delete fail!")
 
     def option(self):
         while True:
-            case = int(input("Chọn vật phẩm cần xoá (Nhập O để quay lại): "))
-            if case == 0:
-                break
+            case = int(input("Chọn vật phẩm cần xoá: "))
 
-            elif case > self.index:
+            if case > self.index or case < 1:
                 print("\nKhông có vật phẩm phù hợp")
                 break
             else:

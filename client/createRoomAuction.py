@@ -16,7 +16,11 @@ class CreateRoomAuction:
         dataRec = self.server_socket.recv(1024).decode("utf8")
         print('Server: ', dataRec)
         data = dataRec.split(" ")
-        print(data)
+        if data[0] == "CREATEROOM":
+            print("Create room success!")
+        else:
+            print("Create room fail!")
+            
         return data[1], data[2], data[3]
 
 

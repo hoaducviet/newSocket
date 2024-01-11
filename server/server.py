@@ -3,7 +3,7 @@ import json
 import threading
 
 HOST = '127.0.0.1'  
-PORT = 8000
+PORT = 8001
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -12,10 +12,14 @@ s.listen(10)
 
 
 userIndex = 0
-
+roomIndex = 0
+productIndex = 0
+time = 60
 def handle_client(client, addr):
     global userIndex
-
+    global roomIndex
+    global productIndex
+    global time
     try:
         print('Connected by', addr)
         while True:
@@ -87,30 +91,164 @@ def handle_client(client, addr):
                 if not check:
                     msg += "Error"
 
-                #msg += "EDITUSERPASSWORD iduser Change,password,successed"
-
-
-
             if dataR[0] == "LOGPRODUCT":
-                msg += "LOGPRODUCT idProduct1,nameProduct1 idProduct2,nameProduct2"
+                msg += "LOGPRODUCT room-0-nam-0,tauthuy room-0-nam,xetang"
             if dataR[0] == "LOGAUCTION":
-                msg += "LOGAUCTION idRoom1,nameRoom1 idRoom2,nameRoom2"
+                msg += "LOGAUCTION room-0-viet,viet room-0-noname,noname room-0-nam,nam"
+
+
             if dataR[0] == "CREATEROOM":
-                msg += "CREATEROOM idUser idRoom nameRoom"
+                roomList = []
+                msg = ""
+                with open("room.json","r") as f:
+                    roomList = json.load(f)
+
+                for item in roomList:
+                    if dataR[1] == item['idRoom']:
+                        msg += "Error"
+                    break
+                    
+                idUser = f"user-{userIndex}-{dataR[1]}"
+                newRoom = {
+                    "idUser": dataR[1],
+                    "idRoom": f"room-{roomIndex}-{dataR[2]}",
+                    "nameRoom": dataR[2],
+                }
+                roomList.append(newRoom)
+                with open("room.json","w") as f:
+                    json.dump(roomList, f, indent = 4)
+
+                msg += f"CREATEROOM {newRoom['idUser']} {newRoom['idRoom']} {newRoom['nameRoom']}"
+
+
+                
+
             if dataR[0] == "DELETEROOM":
-                msg += "DELETEROOM idUser idRoom nameRoom deleted"
+                roomList = []
+                msg = ""
+                with open("room.json","r") as f:
+                    roomList = json.load(f)
+                check = 0
+                for item in roomList:
+                    if dataR[2] == item['idRoom']:
+                        roomList.remove(item)
+                        check = 1
+                
+                if check:
+                    msg += "DELETEROOM"
+                    
+
+                with open("room.json","w") as f:
+                    json.dump(roomList, f, indent = 4)
+
+                if len(msg) == 0:
+                    msg += "Error"
+
+                
             if dataR[0] == "ADDPRODUCTROOM":
-                msg += "Add product successed"
+                productRoom = []
+                msg = ""
+                with open("productRoom.json","r") as f:
+                    productRoom = json.load(f)
+
+                for item in dataR[3:]:
+                    product = item.split(",")
+                    print(product)
+                    newProduct = {
+                        "idUser": dataR[1],
+                        "idRoom": dataR[2],
+                        "idProduct": f"{dataR[2]}-{productIndex}",
+                        "nameProduct": product[0],
+                        "describeProduct": product[1],
+                        "startPrice": product[2],
+                        "timeAuction": product[3]
+                    }
+                    productRoom.append(newProduct)
+
+                with open("productRoom.json","w") as f:
+                    json.dump(productRoom, f, indent = 4)
+
+                msg += "ADDPRODUCTROOM"
+
+
+
+
+
             if dataR[0] == "VIEWPRODUCTROOM":
-                msg += "VIEWPRODUCTROOM iduser idRoom idProduct1,oto,dfasdfasd,123.0,123.0 idproduct2,viet,afsdfasdf,12.0,43.0 idProduct3,viet,hoangasdf,12.0,123.0"
+                productRoom = []
+                msg = ""
+                with open("productRoom.json","r") as f:
+                    productRoom = json.load(f)
+                newList = [item for item in productRoom if dataR[1] == item['idUser'] and dataR[2] == item['idRoom']]
+                
+                
+                if len(newList) > 0:
+                    msg += f"VIEWPRODUCTROOM {dataR[1]} {dataR[2]}"
+                    for item in newList:
+                        msg += f" {item['idProduct']},{item['nameProduct']},{item['describeProduct']},{item['startPrice']},{item['timeAuction']}"
+                else:
+                    msg += f"VIEWPRODUCTROOM {dataR[1]}"
+                if len(msg) == 0:
+                    msg += "Error"
+
+
             if dataR[0] == "REMOVEPRODUCTROOM":
-                msg += "REMOVEPRODUCTROOM iduser idRoom removeok"
+                productRoom = []
+                listDelete = []
+                msg = ""
+                with open("productRoom.json","r") as f:
+                    productRoom = json.load(f)
+                data = dataR[3:]
+                for item in productRoom:
+                    if item['idUser'] == dataR[1] and item['idRoom'] == dataR[2] and item['idProduct'] in data:
+                        listDelete.append(item)
+                        productRoom.remove(item)
+
+                with open("productRoom.json","w") as f:
+                    json.dump(productRoom, f, indent = 4)
+
+                if len(listDelete) > 0:
+                    msg += "REMOVEPRODUCTROOM"
+                else:
+                    msg += "Error"
+
             if dataR[0] == "LISTMYROOM":
-                msg += "LISTMYROOM iduser idRoom1,nameRoom1 idRoom2,nameRoom2"
+                roomList = []
+                msg = ""
+                with open("room.json","r") as f:
+                    roomList = json.load(f)
+                newList = [item for item in roomList if item.get('idUser') == dataR[1]]
+                if len(newList) > 0:
+                    msg += f"LISTMYROOM {dataR[1]}"
+                    for item in newList:
+
+                        msg += f" {item['idRoom']},{item['nameRoom']}"
+                else:
+                    msg += f"LISTMYROOM {dataR[1]}"
+                if len(msg) == 0:
+                    msg += "Error"
+
+                
             if dataR[0] == "LISTROOM":
-                msg += "LISTROOM iduser idRoom3,nameRoom3 idRoom4,nameRoom4"
+                roomList = []
+                msg = ""
+                with open("room.json","r") as f:
+                    roomList = json.load(f)
+                newList = [item for item in roomList if item.get('idUser') != dataR[1]]
+                if len(newList) > 0:
+                    msg += f"LISTROOM {dataR[1]}"
+                    for item in newList:
+
+                        msg += f" {item['idRoom']},{item['nameRoom']}"
+                else:
+                    msg += f"LISTROOM {dataR[1]}"
+                if len(msg) == 0:
+                    msg += "Error"
+   
+
+
             if dataR[0] == "PRODUCTAUCTIONED":
-                msg += "PRODUCTAUCTIONED iduser idProduct1,nameProduct1,idRoom1,nameRoom1 idProduct2,nameProduct2,idRoom2,nameRoom2"
+                msg += "PRODUCTAUCTIONED iduser room-0-nam-0,viet,room-0-nam,nam room-0-nam-1,xetang,room-0-nam,nameRoom2"
             if dataR[0] == "PRODUCTAUCTING":
                 msg += "PRODUCTAUCTING iduser idProduct3,nameProduct3,idRoom1,nameRoom1 idProduct2,nameProduct2,idRoom2,nameRoom2"
             if dataR[0] == "PRODUCTAUCTION":
@@ -119,16 +257,29 @@ def handle_client(client, addr):
                 msg += "SEARCHPRODUCTINFOR iduser idProduct1,nameProduct1,idRoom1,nameRoom1 idProduct2,nameProduct2,idRoom2,nameRoom2"
             if dataR[0] == "SEARCHPRODUCTTIME":
                 msg += "SEARCHPRODUCTTIME iduser idProduct3,nameProduct3,idRoom3,nameRoom3 idProduct2,nameProduct2,idRoom2,nameRoom2"
+
+
             if dataR[0] == "VIEWROOM":
-                msg += "VIEWROOM iduser idRoom nameRoom idProduct nameProduct nowPrice buyNowPrice time"
-            
+                nowPrice = 12
+                msg += f"VIEWROOM user-1-viet12 room-0-nam RoomViet room-0-nam-1 xedap {nowPrice} 100.0 5"
 
             if dataR[0] == "BUYNOW":
-                msg += "BUYNOW Buysuccessed!"
+                msg += "BUYNOW"
 
             if dataR[0] == "BIDPRICE":
-                msg += "BIDPRICE iduser idRoom idProduct newPrice time"
-            
+                nowPrice = 12
+                time = time - 1
+                newPrice = float(dataR[3])
+                price = nowPrice
+                if newPrice - nowPrice > 10:
+                    price = newPrice
+
+                if price > nowPrice:
+                    msg += f"BIDPRICE user-1-viet12 room-0-nam room-0-nam-1 {newPrice} {time}"
+                else:
+                    msg += "Error"
+
+
             if dataR[0] == "LOGROOM":
                 msg += "LOGROOM idRoom idProduct1,nameProduct1,idUser1,userName1,price1,time1 idProduct2,nameProduct2,idUser2,userName2,price2,time2"
             

@@ -25,28 +25,35 @@ class ViewRoom:
         
 
     def sendDataBidPriceProduct(self):
-        msg = f"BIDPRICE {self.idRoom} {self.data[4]}"
+        price = float(input("Ra giá: "))
+        msg = f"BIDPRICE {self.idRoom} {self.data[4]} {price}"
         self.server_socket.sendall(bytes(msg, "utf8"))
         print(msg)
 
     def receiDataBidPriceProduct(self):
         dataRec = self.server_socket.recv(1024).decode("utf8")
         #dataRec = "BIDPRICE iduser idRoom idProduct newPrice time"
-        print('Server: ', dataRec)
+       
 
         data = dataRec.split(" ")
-        self.data[6],self.data[8] = data[4],data[5]
+        if data[0] == "BIDPRICE":
+            self.data[6],self.data[8] = data[4],data[5]
+            print("\nĐã được đặt giá mới")
+        else:
+            print("\nKhông hợp lệ")
 
 
     def sendDataBuyNowdPriceProduct(self):
         msg = f"BUYNOW {self.idRoom} {self.data[7]}"
         self.server_socket.sendall(bytes(msg, "utf8"))
-        print(msg)
+        
 
     def receiDataBuyNowPriceProduct(self):
         dataRec = self.server_socket.recv(1024).decode("utf8")
-        dataRec = "BUYNOW Buysuccessed!"
-        print('Server: ', dataRec)
+        if dataRec == "BUYNOW":
+            print("\nĐã được mua")
+
+        
     
 
     def logRoom(self):
@@ -63,27 +70,19 @@ class ViewRoom:
         self.receiDataBuyNowPriceProduct()
 
 
-
     def sendDataViewRoom(self):
         msg = f"VIEWROOM {self.idRoom}"
         self.server_socket.sendall(bytes(msg, "utf8"))
-        print(msg)
+        
         
 
     def receiDataViewRoom(self):
         dataRec = self.server_socket.recv(1024).decode("utf8")
-        #dataRec = "VIEWROOM iduser idRoom nameRoom idProduct nameProduct nowPrice buyNowPrice time"
-        print('Server: ', dataRec)
-
         self.data = dataRec.split(" ")
-        print(self.data)
 
     def output(self):
 
         print(f"\nTên Phòng: {self.data[3]}\nSản phẩm đang đấu giá: {self.data[5]}\nGiá hiện tại: {self.data[6]}\nGiá bán trực tiếp: {self.data[7]}\nThời gian còn lại: {self.data[8]}")
-
-    
-
 
     def screenAuction(self):
         self.sendDataViewRoom()
@@ -111,7 +110,4 @@ class ViewRoom:
 
     def viewRoom(self):
         self.screenAuction()
-    
-#user = ViewRoom(123,1).viewRoom()
 
-     

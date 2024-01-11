@@ -14,8 +14,14 @@ class RemoveRoomAuction:
 
     def receiData(self):
         dataRec = self.server_socket.recv(1024).decode("utf8")
+        data = dataRec.split(" ")
         print('Server: ', dataRec)
         
+        if data[0] == "DELETEROOM":
+            print("Delete room success!")
+        else: 
+            print("Delete room fail!")
+            
     def removeRoom(self):
         self.sendDataUser()
         self.receiData()
